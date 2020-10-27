@@ -1,100 +1,56 @@
 pub struct Post {
-    state: Option<Box<dyn State>>,
+    content: String,
+}
+
+pub struct DraftPost {
     content: String,
 }
 
 impl Post {
-    pub fn new() -> Post {
-        Post {
-            state: Some(Box::new(Draft {})),
+    pub fn new() -> DraftPost {
+        DraftPost {
             content: String::new(),
         }
     }
-    pub fn add_text(&mut self, text: &str) {
-        self.content.push_str(self.state.as_ref().unwrap().add_text(text));
-    }
+
     pub fn content(&self) -> &str {
-        self.state.as_ref().unwrap().content(self)
+        &self.content
     }
-    pub fn request_review(&mut self) {
-        if let Some(s) = self.state.take() {
-            self.state = Some(s.request_review())
-        }
+}
+
+impl DraftPost {
+    pub fn add_text(&mut self, text: &str) {
+        self.content.push_str(text);
     }
-    pub fn approve(&mut self) {
-        if let Some(s) = self.state.take() {
-            self.state = Some(s.approve())
-        }
-    }
-    pub fn reject(&mut self) {
-        if let Some(s) = self.state.take() {
-            self.state = Some(s.reject())
+
+    pub fn request_review(self) -> PendingReviewPost {
+        PendingReviewPost {
+            content: self.content,
+            approvals: 0,
         }
     }
 }
 
-trait State {
-    fn request_review(self: Box<Self>) -> Box<dyn State>;
-    fn approve(self: Box<Self>) -> Box<dyn State>;
-    fn reject(self: Box<Self>) -> Box<dyn State>;
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
-        ""
-    }
-    fn add_text<'a>(&self, text: &'a str) -> &'a str {
-        ""
-    }
+pub struct PendingReviewPost {
+    content: String,
+    approvals: u32,
 }
 
-struct Draft {}
-
-impl State for Draft {
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        Box::new(PendingReview { approvals: 0 })
-    }
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
-    fn reject(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
-    fn add_text<'a>(&self, text: &'a str) -> &'a str {
-        text
-    }
-}
-
-struct PendingReview { approvals: u32 }
-
-impl State for PendingReview {
-    fn request_review(mut self: Box<Self>) -> Box<dyn State> {
-        self.approvals = 0;
-        self
-    }
-    fn approve(mut self: Box<Self>) -> Box<dyn State> {
-        self.approvals = self.approvals + 1;
-        if self.approvals >= 2 {
-            Box::new(Published {})
+impl PendingReviewPost {
+    pub fn approve(&mut self) -> Option<Post> {
+        self.approvals += 1;
+        if self.approvals > 1 {
+            Some(Post {
+                content: self.content.clone(),
+            })
         } else {
-            self
+            None
         }
     }
-    fn reject(self: Box<Self>) -> Box<dyn State> {
-        Box::new(Draft {})
-    }
-}
 
-struct Published {}
-
-impl State for Published {
-    fn request_review(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
-    fn approve(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
-    fn reject(self: Box<Self>) -> Box<dyn State> {
-        self
-    }
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
-        &post.content
+    pub fn reject(self) -> DraftPost {
+        DraftPost {
+            content: self.content,
+        }
     }
 }
