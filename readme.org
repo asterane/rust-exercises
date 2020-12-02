@@ -26,3 +26,8 @@ of chapter exercises.
 I have not started on this book from O'Reilly, but it is the next one
 I will read after the Rust book. I hope that it will offer additional
 perspective and understanding on Rust.
+
+* /LRtDW/
+I followed along with the excellent articles of [[https://cliffle.com/p/dangerust][Learn Rust the
+Dangerous Way]] to work with unsafe code and optimization in Rust. The
+files in which I followed along with the series are in =dangerust=.
