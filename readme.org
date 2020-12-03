@@ -27,6 +27,13 @@ I have not started on this book from O'Reilly, but it is the next one
 I will read after the Rust book. I hope that it will offer additional
 perspective and understanding on Rust.
 
+* /The Rustonomicon/
+I read through this guide to learn techniques for working with unsafe
+Rust. I followed along with the implementation of Vec<T> at the end of
+the book; an interesting exercise because the given code does not work
+in modern Rust. I had to make my own changes as appropriate. My work
+is in the =nomicon= directory.
+
 * /LRtDW/
 I followed along with the excellent articles of [[https://cliffle.com/p/dangerust][Learn Rust the
 Dangerous Way]] to work with unsafe code and optimization in Rust. The

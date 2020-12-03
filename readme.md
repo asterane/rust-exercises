@@ -1,11 +1,11 @@
 
 
-<a id="org22483e3"></a>
+<a id="org6b49e09"></a>
 
 # Rust Exercises
 
 
-<a id="org4f31c1e"></a>
+<a id="org7bab79b"></a>
 
 # Overview
 
@@ -18,7 +18,7 @@ understand Rust's design decisions, what differentiates it from
 languages like C, and how to write clean, efficient code.
 
 
-<a id="org1596776"></a>
+<a id="org9d73106"></a>
 
 # *The Rust Programming Language*
 
@@ -29,7 +29,7 @@ is `exercises`, which is where I have been completing all of the end
 of chapter exercises.
 
 
-<a id="orgce75de3"></a>
+<a id="orga7e4d66"></a>
 
 # *Programming Rust*
 
@@ -38,7 +38,18 @@ I will read after the Rust book. I hope that it will offer additional
 perspective and understanding on Rust.
 
 
-<a id="org081959b"></a>
+<a id="org9dae0e4"></a>
+
+# *The Rustonomicon*
+
+I read through this guide to learn techniques for working with unsafe
+Rust. I followed along with the implementation of Vec<T> at the end of
+the book; an interesting exercise because the given code does not work
+in modern Rust. I had to make my own changes as appropriate. My work
+is in the `nomicon` directory.
+
+
+<a id="orgd537f7e"></a>
 
 # *LRtDW*
 
